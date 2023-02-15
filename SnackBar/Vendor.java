@@ -15,7 +15,7 @@ public class Vendor
     private int deposit;
     private int change;
     //make a private static double variable called totalSales that has an initial value of 0 and stores the amount of money made
-    private double totalSales;
+    private static double totalSales;
 
     /**
      * Constructs a Vendor
@@ -30,7 +30,7 @@ public class Vendor
 
     /**
      * Sets the quantity of items in stock.
-     * @param qty number of items to place in stock (int)
+     * @param stock number of items to place in stock (int)
      */
 
 
@@ -80,13 +80,14 @@ public class Vendor
     {
        if(stock != 0 && deposit >= price){
            stock--;
-           change = deposit- price;
+           change += deposit - price;
+           deposit -= price;
+           totalSales += (double)price/100;
            return true;
        }
-       else(){
-           change += deposit;
-           return false;
-    }
+       change += deposit;
+       return false;
+
     }
 
     /**
@@ -101,27 +102,26 @@ public class Vendor
         return c;
     }
 
+    /**
+     * Converts cents to coins and prints them out
+     * @return The change of a sale in terms of coins
+     */
     public String getChangeString()
     {
-        //From Ethan: create a get method that returns the amount and type of coins that should be returned by the machine
-        /*
-        note that the coin class has a .getQuarters(), a .getDimes() etc etc (use the coin class!)
-        */
-        
-
-        String changeString="";
-
-        return changeString;
+        Coins changeString = new Coins(change);
+        return "\nQuarters: "+changeString.getQuarters() +"\nDimes: "+changeString.getDimes()+"\nNickles: "+changeString.getNickles()+"\nPennies: "+changeString.getPennies();
     }
     
     /**
-    * Returns the total dollars of sales and resets the total number of sales to 0
+    * Returns the total dollars of sales and resets the total dollars of sales to 0
     * Hint: use a temp variable
     *
-    * @return number of sales
+    * @return dollars of sales
     */
     public static double getTotalSales()
     {
-        //complete this
+        double sales = totalSales;
+        totalSales = 0;
+        return sales;
     }
 }
